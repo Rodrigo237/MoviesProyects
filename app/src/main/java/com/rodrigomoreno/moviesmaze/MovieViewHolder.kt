@@ -10,10 +10,10 @@ class MovieViewHolder(view: View):RecyclerView.ViewHolder(view) {
 
     fun bind(image:String,name: String, network:String, airdate: String,airtime:String){
         Picasso.get().load(image).into(binding.imageViewProgram)
-        binding.tvTitleProgram.text = name
-        binding.textViewNetwork.text = network
-        binding.textViewAirDate.text = airdate
-        binding.textViewAirTime.text = airtime
+        binding.tvTitleProgramByName.text = name
+        binding.textViewNetworkByName.text = network
+        binding.textViewScheduleTime.text = airdate
+        binding.textViewScheduledays.text = airtime
 
     }
 }

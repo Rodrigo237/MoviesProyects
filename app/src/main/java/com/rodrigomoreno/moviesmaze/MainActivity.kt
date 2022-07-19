@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodrigomoreno.moviesmaze.RETROFIT.APIService
-import com.rodrigomoreno.moviesmaze.RETROFIT.Schedule
-import com.rodrigomoreno.moviesmaze.RETROFIT.TVMovies
+import com.rodrigomoreno.moviesmaze.RETROFIT.ShowNombre.MoviesResponseNameItem
+import com.rodrigomoreno.moviesmaze.RETROFIT.ShowNombre.Show
 import com.rodrigomoreno.moviesmaze.RETROFIT.TVMoviesItem
 import com.rodrigomoreno.moviesmaze.common.Constantes
 import com.rodrigomoreno.moviesmaze.databinding.ActivityMainBinding
@@ -20,19 +22,39 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityMainBinding
     val fechahoy: String = "2022-07-18"
     private lateinit var adapter: MoviesAdapter
+    private lateinit var adapterName : MoviesNameAdapter
     private val moviesInfo = mutableListOf<TVMoviesItem>()
+    private val moviesByName = mutableListOf<Show>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initRecyclerView()
-        getToday()
+            initRecyclerViewByName()
+            initRecyclerView()
+            getToday()
+           // isActivedSearchMode()
+
+
+    }
+
+    private fun initRecyclerViewByName() {
+        adapterName = MoviesNameAdapter(moviesByName)
+        binding.rvMoviesByName.layoutManager = LinearLayoutManager(this)
+        binding.rvMoviesByName.adapter = adapterName
+    }
+
+    private fun isActivedSearchMode() {
+        if(!binding.svMovies.isActivated){
+            binding.rvMovies.isGone = true
+            binding.textViewFecha.isGone = true
+
+        }
     }
 
     private fun initRecyclerView() {
@@ -75,17 +97,16 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun searchByName(query: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val call: Response<MoneyResponse> = getRetrofit().create(APIService::class.java)
-                .getMoneyByUSD("country/getCurrency?currency=$query&dummy=true") //estatico
-            // val call : Response<MoneyResponse> = getRetrofit().create(APIService::class.java).getMoneyByUSD("country/getCurrency?currency=$query") // servicio dinamico
-            val usd: MoneyResponse? = call.body()
+            val call: Response<List<Show>> = getRetrofit().create(APIService::class.java)
+                .getMoviesByName("search/shows?q=$query")
+            val moviebyName: List<Show>? = call.body()
             runOnUiThread() {
                 if (call.isSuccessful) {
-                    val listUSD: List<Data>? = usd?.listMoney
-                    if (listUSD != null) {
-                        moneyInfo.addAll(listUSD)
+                    val listByName: List<Show>? = moviebyName
+                    if (listByName != null) {
+                        moviesByName.addAll(listByName)
                     }
-                    adapter.notifyDataSetChanged()
+                    adapterName.notifyDataSetChanged()
                 } else {
                     Toast.makeText(this@MainActivity, "Ha ocurrido un error", Toast.LENGTH_LONG)
                         .show()
