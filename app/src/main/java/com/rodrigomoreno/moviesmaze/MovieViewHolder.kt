@@ -9,7 +9,7 @@ class MovieViewHolder(view: View):RecyclerView.ViewHolder(view) {
     private val binding = ItemMovieBinding.bind(view)
 
     fun bind(image:String,name: String, network:String, airdate: String,airtime:String){
-        Picasso.get().load(image).into(binding.imageViewProgram)
+        Picasso.get().load(image).into(binding.imageViewProgramName)
         binding.tvTitleProgramByName.text = name
         binding.textViewNetworkByName.text = network
         binding.textViewScheduleTime.text = airdate

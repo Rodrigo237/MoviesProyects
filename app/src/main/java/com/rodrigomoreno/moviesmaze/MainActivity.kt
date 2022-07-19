@@ -10,8 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodrigomoreno.moviesmaze.RETROFIT.APIService
-import com.rodrigomoreno.moviesmaze.RETROFIT.ShowNombre.MoviesResponseNameItem
-import com.rodrigomoreno.moviesmaze.RETROFIT.ShowNombre.Show
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import com.rodrigomoreno.moviesmaze.RETROFIT.TVMoviesItem
 import com.rodrigomoreno.moviesmaze.common.Constantes
 import com.rodrigomoreno.moviesmaze.databinding.ActivityMainBinding
@@ -22,23 +21,24 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity(), OnQueryTextListener {
 
     private lateinit var binding: ActivityMainBinding
     val fechahoy: String = "2022-07-18"
     private lateinit var adapter: MoviesAdapter
     private lateinit var adapterName : MoviesNameAdapter
     private val moviesInfo = mutableListOf<TVMoviesItem>()
-    private val moviesByName = mutableListOf<Show>()
+    private val moviesByName = mutableListOf<TVMoviesItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
             initRecyclerViewByName()
+        binding.svMovies.setOnQueryTextListener(this)
             initRecyclerView()
             getToday()
-           // isActivedSearchMode()
+           isActivedSearchMode()
 
 
     }
@@ -50,10 +50,13 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun isActivedSearchMode() {
-        if(!binding.svMovies.isActivated){
+        if(binding.svMovies.isClickable){
             binding.rvMovies.isGone = true
             binding.textViewFecha.isGone = true
 
+        }else{
+            binding.rvMovies.isGone = false
+            binding.textViewFecha.isGone = false
         }
     }
 
@@ -97,12 +100,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     @SuppressLint("NotifyDataSetChanged")
     private fun searchByName(query: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val call: Response<List<Show>> = getRetrofit().create(APIService::class.java)
+            val call: Response<List<TVMoviesItem>> = getRetrofit().create(APIService::class.java)
                 .getMoviesByName("search/shows?q=$query")
-            val moviebyName: List<Show>? = call.body()
+            val moviebyName: List<TVMoviesItem>? = call.body()
             runOnUiThread() {
                 if (call.isSuccessful) {
-                    val listByName: List<Show>? = moviebyName
+                    val listByName: List<TVMoviesItem>? = moviebyName
                     if (listByName != null) {
                         moviesByName.addAll(listByName)
                     }
