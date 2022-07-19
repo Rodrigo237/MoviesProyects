@@ -12,4 +12,7 @@ interface APIService {
     @GET
     suspend fun getMoviesByName(@Url url:String):Response<List<TVMoviesItem>>
 
+    @GET
+    suspend fun getInfoProgram(@Url url: String):Response<List<TVMoviesItem>>
+
 }

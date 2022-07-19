@@ -1,12 +1,12 @@
 package com.rodrigomoreno.moviesmaze
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rodrigomoreno.moviesmaze.RETROFIT.APIService
@@ -21,7 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity(), OnQueryTextListener {
+class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListener {
 
     private lateinit var binding: ActivityMainBinding
     val fechahoy: String = "2022-07-18"
@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener {
             getToday()
            isActivedSearchMode()
 
-
     }
 
     private fun initRecyclerViewByName() {
@@ -50,18 +49,13 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener {
     }
 
     private fun isActivedSearchMode() {
-        if(binding.svMovies.isClickable){
-            binding.rvMovies.isGone = true
-            binding.textViewFecha.isGone = true
-
-        }else{
-            binding.rvMovies.isGone = false
-            binding.textViewFecha.isGone = false
+        binding.svMovies.setOnClickListener{
+            binding.rvMovies.isGone
         }
     }
 
     private fun initRecyclerView() {
-        adapter = MoviesAdapter(moviesInfo)
+        adapter = MoviesAdapter(moviesInfo,this)
         binding.rvMovies.layoutManager = LinearLayoutManager(this)
         binding.rvMovies.adapter = adapter
     }
@@ -131,6 +125,11 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener {
         return true
     }
 
+    override fun onMovieItemCliked(position: Int) {
+        val intent = Intent(this,DetailsActivity::class.java)
+        intent.putExtra("id", moviesInfo[position].name)
+        startActivity(intent)
+    }
 
 
 }

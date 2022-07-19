@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CLProgram"
     android:layout_width="match_parent"
     android:layout_height="320dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp">
 
     <ImageView
-        android:id="@+id/imageViewProgramName"
+        android:id="@+id/imageViewProgram"
         android:layout_width="156dp"
         android:layout_height="217dp"
         android:layout_marginStart="32dp"
@@ -18,38 +19,38 @@
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <TextView
-        android:id="@+id/tvTitleProgramByName"
+        android:id="@+id/tvTitleProgram"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewProgramName"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewProgram"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageViewProgramName"
-        app:layout_constraintTop_toTopOf="@+id/imageViewProgramName"
+        app:layout_constraintStart_toEndOf="@+id/imageViewProgram"
+        app:layout_constraintTop_toTopOf="@+id/imageViewProgram"
         app:layout_constraintVertical_bias="0.216">
 
     </TextView>
 
     <TextView
-        android:id="@+id/textViewNetworkByName"
+        android:id="@+id/textViewNetwork"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitleProgramByName"
+        app:layout_constraintEnd_toEndOf="@+id/tvTitleProgram"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvTitleProgramByName"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleProgramByName" />
+        app:layout_constraintStart_toStartOf="@+id/tvTitleProgram"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleProgram" />
 
     <TextView
-        android:id="@+id/textViewScheduleTime"
+        android:id="@+id/textViewTime"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewProgramName"
-        app:layout_constraintStart_toStartOf="@+id/textViewNetworkByName"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNetworkByName"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewProgram"
+        app:layout_constraintStart_toStartOf="@+id/textViewNetwork"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNetwork"
         app:layout_constraintVertical_bias="0.147" />
 
     <TextView
@@ -58,8 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/textViewNetworkByName"
-        app:layout_constraintStart_toEndOf="@+id/textViewScheduleTime"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNetworkByName" />
+        app:layout_constraintEnd_toEndOf="@+id/textViewNetwork"
+        app:layout_constraintStart_toEndOf="@+id/textViewTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNetwork" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
