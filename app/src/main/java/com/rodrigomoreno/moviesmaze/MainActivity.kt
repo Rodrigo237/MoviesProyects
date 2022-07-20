@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListener {
 
     private lateinit var binding: ActivityMainBinding
-    val fechahoy: String = "2022-07-18"
+    val fechahoy: String = "2013-06-24"
     private lateinit var adapter: MoviesAdapter
     private lateinit var adapterName : MoviesNameAdapter
     private val moviesInfo = mutableListOf<TVMoviesItem>()
@@ -38,7 +38,13 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
         binding.svMovies.setOnQueryTextListener(this)
             initRecyclerView()
             getToday()
-           isActivedSearchMode()
+        binding.rvMoviesByName.isGone = true
+        binding.svMovies.setOnSearchClickListener {
+            binding.rvMovies.isGone = true
+            binding.textViewFecha.isGone = true
+            binding.rvMoviesByName.isGone = false
+        }
+
 
     }
 
@@ -48,11 +54,6 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
         binding.rvMoviesByName.adapter = adapterName
     }
 
-    private fun isActivedSearchMode() {
-        binding.svMovies.setOnClickListener{
-            binding.rvMovies.isGone
-        }
-    }
 
     private fun initRecyclerView() {
         adapter = MoviesAdapter(moviesInfo,this)
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
 
     override fun onMovieItemCliked(position: Int) {
         val intent = Intent(this,DetailsActivity::class.java)
-        intent.putExtra("id", moviesInfo[position].name)
+        intent.putExtra("id",moviesInfo[position].id)
         startActivity(intent)
     }
 

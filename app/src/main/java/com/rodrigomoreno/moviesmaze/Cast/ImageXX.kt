@@ -1,6 +1,6 @@
 package com.rodrigomoreno.moviesmaze.Cast
 
-data class Image(
+data class ImageXX(
     val medium: String,
     val original: String
 )

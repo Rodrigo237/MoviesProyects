@@ -7,7 +7,7 @@ data class Person(
     val deathday: Any,
     val gender: String,
     val id: Int,
-    val image: Image,
+    val image: ImageXX,
     val name: String,
     val updated: Int,
     val url: String

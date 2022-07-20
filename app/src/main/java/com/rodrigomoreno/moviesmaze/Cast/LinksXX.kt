@@ -1,5 +1,6 @@
 package com.rodrigomoreno.moviesmaze.Cast
 
-data class LinksX(
+data class LinksXX(
+    val previousepisode: Previousepisode,
     val self: Self
 )

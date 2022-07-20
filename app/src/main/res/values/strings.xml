@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MoviesMaze</string>
+    <string name="rating">Rating</string>
+    <string name="visitarSitio">Visitar Sitio</string>
 </resources>

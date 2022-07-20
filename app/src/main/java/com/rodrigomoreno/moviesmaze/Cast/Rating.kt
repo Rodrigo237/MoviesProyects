@@ -1,5 +1,5 @@
 package com.rodrigomoreno.moviesmaze.Cast
 
-data class LinksX(
-    val self: Self
+data class Rating(
+    val average: Double
 )
