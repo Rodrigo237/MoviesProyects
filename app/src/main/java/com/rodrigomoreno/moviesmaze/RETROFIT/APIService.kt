@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface APIService {
-
+    //Se declaran las respuestas que se utilizaran para consumir los dintintos servicios que se utilizaran
     @GET
     suspend fun getMovies(@Url url:String):Response<List<TVMoviesItem>>
 

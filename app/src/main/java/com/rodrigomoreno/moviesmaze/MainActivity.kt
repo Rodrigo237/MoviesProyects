@@ -23,21 +23,27 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListener {
 
+    //Declaración de variables
     private lateinit var binding: ActivityMainBinding
-    val fechahoy: String = "2013-06-24"
+    val fechahoy: String = "2022-07-20"
     private lateinit var adapter: MoviesAdapter
     private lateinit var adapterName : MoviesNameAdapter
     private val moviesInfo = mutableListOf<TVMoviesItem>()
     private val moviesByName = mutableListOf<TVMoviesItem>()
 
+    //Metodo onCreate aqui se mandan a llamar los metodos utilizados durante esta clase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Inicialización de ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-            initRecyclerViewByName()
-        binding.svMovies.setOnQueryTextListener(this)
-            initRecyclerView()
-            getToday()
+            initRecyclerViewByName() //Llamado del RecyclerView paraa busqueda por Nombre
+        binding.svMovies.setOnQueryTextListener(this) //Declaración de metodo onQuerytextListener
+            initRecyclerView()//Llamado del RecyclerView paraa busqueda por fecha
+            getToday() //Metodo que realiza la busqueda por fecha
+
+        //Esta parte muestra de inicio el recycler View por fecha pero al dar click en el Search
+        //desaperece ese RV para solo mostrar la busqueda por nombre
         binding.rvMoviesByName.isGone = true
         binding.svMovies.setOnSearchClickListener {
             binding.rvMovies.isGone = true
@@ -48,19 +54,21 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
 
     }
 
+    //Metodo para montar el adapter del RV por nombre
     private fun initRecyclerViewByName() {
         adapterName = MoviesNameAdapter(moviesByName)
         binding.rvMoviesByName.layoutManager = LinearLayoutManager(this)
         binding.rvMoviesByName.adapter = adapterName
     }
 
-
+    //Metodo para montar el adapter del RV por fecha
     private fun initRecyclerView() {
         adapter = MoviesAdapter(moviesInfo,this)
         binding.rvMovies.layoutManager = LinearLayoutManager(this)
         binding.rvMovies.adapter = adapter
     }
 
+    //Aqui se realiza la conexion de retrofit
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constantes.TV_MAZE_BASE_URL)
@@ -68,22 +76,23 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
             .build()
     }
 
-
+    //Se busca por fecha de programa
     private fun getToday() {
+        //Se realiza una corotina para el proceso
         CoroutineScope(Dispatchers.IO).launch {
             val call: Response<List<TVMoviesItem>> = getRetrofit().create(APIService::class.java)
-                .getMovies("schedule?country=US&date=$fechahoy") //estatico
+                .getMovies("schedule?country=US&date=$fechahoy") //Se recibe la respuesta del servicio
             val movieTV: List<TVMoviesItem>? = call.body()
             runOnUiThread() {
-                if (call.isSuccessful) {
-                    val listTVMovies: List<TVMoviesItem>? = movieTV
-                    if (listTVMovies != null) {
-                        moviesInfo.addAll(listTVMovies)
+                if (call.isSuccessful) {//Se muestra si la respuesta es positivo
+                    val listTVMovies: List<TVMoviesItem>? = movieTV //Se recibe lo que se consumio
+                    if (listTVMovies != null) { //Se verifica que no es nulo lo que se recibe
+                        moviesInfo.addAll(listTVMovies) //Se agrega en la lista de movies
                     }
-                    binding.textViewFecha.text = fechahoy
-                    adapter.notifyDataSetChanged()
+                    binding.textViewFecha.text = fechahoy //Se muestra la fecha que se seleccione
+                    adapter.notifyDataSetChanged() //Se notifica el cambio del adapter
                 } else {
-                    Toast.makeText(this@MainActivity, "Ha ocurrido un error", Toast.LENGTH_LONG)
+                    Toast.makeText(this@MainActivity, "Ha ocurrido un error", Toast.LENGTH_LONG) //muestra un mensaje si no se pudo lograr el consumo de rescursos
                         .show()
                 }
             }
@@ -94,17 +103,18 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
     //Se busca por nombre de programa
     @SuppressLint("NotifyDataSetChanged")
     private fun searchByName(query: String) {
+        //Se realiza una corotina para el proceso
         CoroutineScope(Dispatchers.IO).launch {
             val call: Response<List<TVMoviesItem>> = getRetrofit().create(APIService::class.java)
-                .getMoviesByName("search/shows?q=$query")
+                .getMoviesByName("search/shows?q=$query")//Se recibe la respuesta del servicio
             val moviebyName: List<TVMoviesItem>? = call.body()
             runOnUiThread() {
-                if (call.isSuccessful) {
-                    val listByName: List<TVMoviesItem>? = moviebyName
-                    if (listByName != null) {
-                        moviesByName.addAll(listByName)
+                if (call.isSuccessful) {//Se muestra si la respuesta es positivo
+                    val listByName: List<TVMoviesItem>? = moviebyName//Se recibe lo que se consumio
+                    if (listByName != null) {//Se verifica que no es nulo lo que se recibe
+                        moviesByName.addAll(listByName)//Se agrega en la lista de movies
                     }
-                    adapterName.notifyDataSetChanged()
+                    adapterName.notifyDataSetChanged()//Se notifica el cambio del adapter
                 } else {
                     Toast.makeText(this@MainActivity, "Ha ocurrido un error", Toast.LENGTH_LONG)
                         .show()
@@ -117,7 +127,7 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrEmpty()) {
-            searchByName(query)
+            searchByName(query) //Se llama el metodo de SearchView
         }
         return true
     }
@@ -126,10 +136,12 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
         return true
     }
 
+    //Este metodo entra cuando en la pantalla inicial al seleccionar un elemento se pasara a ver la descrpcion general del programa seleccionado
     override fun onMovieItemCliked(position: Int) {
+        //Se implementa el Intent
         val intent = Intent(this,DetailsActivity::class.java)
-        intent.putExtra("id",moviesInfo[position].id)
-        startActivity(intent)
+        intent.putExtra("id",moviesInfo[position].id) //Se le pasa el id del elemento seleccionado
+        startActivity(intent) //Se inicia la otra activity
     }
 
 
