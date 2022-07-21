@@ -1,5 +1,7 @@
 package com.rodrigomoreno.moviesmaze
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -57,7 +59,7 @@ class DetailsActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             //Se realiza una corotina para el proceso
             val call: Response<CastResponseItem> = getRetrofit().create(APIService::class.java)
-                .getInfoProgram("shows/1") //estatico //Se recibe la respuesta del servicio
+                .getInfoProgram("shows/2") //estatico //Se recibe la respuesta del servicio
             val programTV: CastResponseItem? = call.body()
             runOnUiThread() {
                 if (call.isSuccessful) {//Se muestra si la respuesta es positivo
@@ -68,11 +70,15 @@ class DetailsActivity : AppCompatActivity() {
                         binding.textViewNameProgram.text = programInfo.name
                         binding.textViewNetworkProgram.text = programInfo.network.name
                         binding.textViewRating.text = programInfo.rating.average.toString()
-                        binding.buttonVisitarSitio.text = programInfo.officialSite.toString()
+                        //Se hace un evento onClick cuando se pulse el boton de  ir al sitio
+                        binding.buttonVisitarSitio.setOnClickListener { 
+                            gotoUrl(programInfo.officialSite)
+                        }
                         binding.tvSummary.text = programInfo.summary
                         binding.textViewgenre.text = programInfo.genres.toString()
                         binding.textViewTimeProgram.text = programInfo.schedule.time
                         binding.textViewDaysProgram.text = programInfo.schedule.days.toString()
+                        
                     }
                 } else {
                     Toast.makeText(this@DetailsActivity, "Ha ocurrido un error", Toast.LENGTH_LONG)//muestra un mensaje si no se pudo lograr el consumo de rescursos
@@ -82,6 +88,11 @@ class DetailsActivity : AppCompatActivity() {
 
         }
         }
+    //Metodo que por medio de Intent te manda al sitio que recibe de la url del programa
+    private fun gotoUrl(officialSite: String) {
+        var intent = Intent(Intent.ACTION_VIEW,Uri.parse(officialSite))
+        startActivity(intent)
+    }
 
     //Se busca por id los actores del programa y en este pasa el mismo problema de que no se logra obtener el id eficientemente
     private fun getCaracteres(id: Int) {

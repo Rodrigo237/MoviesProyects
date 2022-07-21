@@ -8,15 +8,14 @@
 
     <ImageView
         android:id="@+id/imageViewInfoProgram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="453dp"
+        android:layout_height="492dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars"
-        />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textViewNameProgram"
@@ -32,9 +31,11 @@
         android:id="@+id/textViewNetworkProgram"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/textViewNameProgram"
+        app:layout_constraintEnd_toStartOf="@+id/buttonVisitarSitio"
         app:layout_constraintStart_toStartOf="@+id/textViewNameProgram"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameProgram" />
 
@@ -53,46 +54,46 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/textViewNameProgram"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/buttonVisitarSitio"
         app:layout_constraintStart_toEndOf="@+id/textViewR"
         app:layout_constraintTop_toBottomOf="@+id/textViewNetworkProgram" />
 
     <Button
         android:id="@+id/buttonVisitarSitio"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="237dp"
+        android:layout_height="85dp"
         android:text="@string/visitarSitio"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/textViewNameProgram"
+        app:layout_constraintHorizontal_bias="0.896"
         app:layout_constraintStart_toEndOf="@+id/imageViewInfoProgram"
-        app:layout_constraintTop_toBottomOf="@+id/textViewR" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameProgram" />
 
     <TextView
         android:id="@+id/tvSummary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:minHeight="48dp"
         android:text="MultiAutoCompleteTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewInfoProgram" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewInfoProgram"
+        app:layout_constraintTop_toBottomOf="@+id/buttonVisitarSitio" />
 
     <TextView
         android:id="@+id/textViewgenre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/tvSummary"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewInfoProgram"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvSummary"
-        app:layout_constraintTop_toBottomOf="@+id/tvSummary" />
+        app:layout_constraintStart_toStartOf="@+id/imageViewInfoProgram"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewInfoProgram" />
 
     <TextView
         android:id="@+id/textViewTimeProgram"
@@ -118,9 +119,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDaysProgram"
+        app:layout_constraintEnd_toEndOf="@+id/tvSummary"
+        app:layout_constraintStart_toStartOf="@+id/tvSummary"
+        app:layout_constraintTop_toBottomOf="@+id/tvSummary"
         app:layout_constraintVertical_bias="0.151" />
 </androidx.constraintlayout.widget.ConstraintLayout>

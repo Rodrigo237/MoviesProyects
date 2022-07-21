@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener,onMovieClickListen
 
     //Declaración de variables
     private lateinit var binding: ActivityMainBinding
-    val fechahoy: String = "2022-07-20"
+    val fechahoy: String = "2022-07-18"
     private lateinit var adapter: MoviesAdapter
     private lateinit var adapterName : MoviesNameAdapter
     private val moviesInfo = mutableListOf<TVMoviesItem>()
